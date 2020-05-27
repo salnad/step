@@ -12,17 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * Adds a random greeting to the page.
- */
-function addRandomGreeting() {
-  const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
+// CODE FOR THE CAROUSEL
 
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
+var curr_item = -1; // store current page number
 
-  // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
+// moves to next item in carousel (gets list of items from html, populates the current item + 1th element in the list to the content div)
+function carousel_next() {
+    var carousel_items = document.getElementById("carousel-items").getElementsByTagName("li");
+    var carousel = document.getElementById("carousel-content");
+    curr_item = (curr_item + 1) % carousel_items.length;
+    carousel.innerHTML = carousel_items[curr_item].innerHTML;    
 }
+
+// moves to next item in carousel (gets list of items from html, populates the current item - 1th element in the list to the content div)
+function carousel_prev() {
+    var carousel_items = document.getElementById("carousel-items").getElementsByTagName("li");
+    var carousel = document.getElementById("carousel-content");
+    curr_item = (carousel_items.length + curr_item - 1) % carousel_items.length;
+    carousel.innerHTML = carousel_items[curr_item].innerHTML;    
+}
+
+// loads the first element in the list in the content on the page loading
+window.onload = carousel_next;

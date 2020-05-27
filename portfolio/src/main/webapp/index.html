@@ -2,17 +2,35 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>My Portfolio</title>
+    <title>Salil Nadkarni (salnad)</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
   </head>
   <body>
     <div id="content">
-      <h1>My Portfolio</h1>
-      <p>This is my portfolio.</p>
-      <p>Click here to get a random message:</p>
-      <button onclick="addRandomGreeting()">Hello</button>
-      <div id="greeting-container"></div>
+        <!-- HEADER -->
+        <h1 id="header">Salil Nadkarni</h1>
+
+        <!-- INFO LINE -->
+        <div id ="info-line">
+            <a target="_blank" class="info-link" href="mailto:salilnadkarni@google.com">mail</a>
+            <a target="_blank" class="info-link" href="https://linkedin.com/in/salnad">linkedin</a>
+            <a target="_blank" class="info-link" href="https://moma.corp.google.com/person/salilnadkarni">moma</a>
+            <a target="_blank" class="info-link" href="https://github.com/salnad">github</a>
+        </div>
+
+        <!-- MODAL -->
+        <div id="carousel">
+          <ul id="carousel-items" hidden> 
+            <li>eventually "my blurb"</li>
+            <li>eventually "my about me"</li>
+            <li>eventually "my projects"</li>
+            <li>eventually "my work / team experience"</li>
+          </ul>
+          <div id="carousel-content" onload="carousel()"></div>
+          <button class="carousel-button" id="carousel-prev" onclick="carousel_prev()">&laquo;</button>
+          <button class="carousel-button" id="carousel-next" onclick="carousel_next()">&raquo;</button>
+        </div>  
     </div>
+    <script src="script.js"></script>
   </body>
 </html>
