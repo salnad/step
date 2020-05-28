@@ -1,11 +1,16 @@
 body {
     background-color: #080808;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 98%;
 }
 
 #mycanvas { 
   display: block; width: 100vw; height: 100vh;
 }
 
-#cancel {
+button {
+    position: absolute;
     z-index: 1;
 }
