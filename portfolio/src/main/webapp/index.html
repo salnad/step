@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
+    <canvas id="mycanvas">
+    </canvas>
     <div id="content">
         <!-- HEADER -->
         <h1 id="header">Salil Nadkarni</h1>
@@ -21,16 +23,17 @@
         <!-- MODAL -->
         <div id="carousel">
           <ul id="carousel-items" hidden> 
-            <li>eventually "my blurb"</li>
-            <li>eventually "my about me"</li>
-            <li>eventually "my projects"</li>
-            <li>eventually "my work / team experience"</li>
+            <li>Rising sophmore at the University of Michigan, STEP intern at Google, majoring in Computer Science and minoring in Mathematics with a strong interest in data analysis and visualization and quantitative methods</li>
+            <li>My name is Salil, I've lived across 3 continents and really like music and cats.</li>
+            <li>I enjoy spending time creating (arguably useless) side projects with frivilous results. Projects include WikiRacer, a chrome extension which allows you to automatically zip through the Wikipedia Game, GotRice, a terminal application that allows you to donate rice and track how much you've donate by automatically solving simple math problems on freerice.org, and Financial Subreddit Analysis, an analysis on sentiment trends in popular investing subreddits and how they tracked with economic measures (the results may shock you!).</li>
+            <li>The projects I've worked on with teams of people are decidedly less frivilous. Projects have included LinkedIn scrapping and clustering work on profiles at my time at Predica Inc, an analysis on how titles of r/rateme posts affects the final scores working with the Michigan Data Science Team, and collection of financial fundamental data from the SEC and other sources for the Quantitative Investment Society.</li>
           </ul>
           <div id="carousel-content" onload="carousel()"></div>
           <button class="carousel-button" id="carousel-prev" onclick="carousel_prev()">&laquo;</button>
           <button class="carousel-button" id="carousel-next" onclick="carousel_next()">&raquo;</button>
         </div>  
     </div>
+    <script src="gol.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
