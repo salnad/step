@@ -1,4 +1,11 @@
-canvas { 
+body {
+    background-color: #080808;
+}
+
+#mycanvas { 
   display: block; width: 100vw; height: 100vh;
-  background: #080808;
+}
+
+#cancel {
+    z-index: 1;
 }
