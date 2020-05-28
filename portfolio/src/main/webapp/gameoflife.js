@@ -17,7 +17,8 @@
 // Page specific variables
 var canvas = document.getElementById("mycanvas");
 var ctx = canvas.getContext("2d");
-var frameID;
+var stop = true;
+var interval, startTime, now, then, elapsed;
 
 resizeCanvasToDisplaySize(canvas);
 
@@ -118,20 +119,38 @@ function resizeCanvasToDisplaySize(canvas) {
    return false;
 }
 
-function golLoop() {
-    setTimeout(() => {
-        updateGrid();
-        drawGrid();
-        console.log(grid);
-        frameID = requestAnimationFrame(golLoop);
-    }, SPEED);    
+function startLoop() {
+    seedGrid();
+    drawGrid();
+    
+    then = Date.now();
+    startTime = then;
+    golLoop();
+    // requestAnimationFrame(golLoop);
 }
 
-seedGrid();
-drawGrid();
-frameID = requestAnimationFrame(golLoop);
+function golLoop() {
+    if (stop) {
+        return;
+    }
+    
+    requestAnimationFrame(golLoop);
+    now = Date.now();
+    elapsed = now - then;
 
-function cancel() {
-    cancelAnimationFrame(frameID);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (elapsed > SPEED) {
+        updateGrid();
+        drawGrid();
+        then = Date.now();
+    }
+}
+
+function toggle() {
+    if (stop) {
+        stop = false;
+        startLoop();
+    } else {
+        stop = true;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
 }
