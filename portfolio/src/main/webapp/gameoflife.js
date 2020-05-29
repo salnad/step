@@ -9,7 +9,7 @@ CODE FOR GAME OF LIFE
 let canvas = document.getElementById("mycanvas");
 let ctx = canvas.getContext("2d");
 let stop = true;
-let interval, startTime, now, then, elapsed;
+let then, elapsed;
 
 resizeCanvasToDisplaySize(canvas);
 
@@ -54,7 +54,7 @@ function gameOfLifeCycle() {
     }
     
     requestAnimationFrame(gameOfLifeCycle);
-    now = Date.now();
+    let now = Date.now();
     elapsed = now - then;
 
     if (elapsed > SPEED) {
