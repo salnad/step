@@ -19,6 +19,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,28 +31,31 @@ import com.google.gson.Gson;
 
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  private List<String> comments;
 
   @Override
-  public void init() {
-      comments = new ArrayList<String>();
-  }
-
-  @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String newComment = request.getParameter("text-input");
-    if (!(newComment.isEmpty() || newComment == null)) {
-      comments.add(newComment);
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {s
+    String content = request.getParameter("text-input");
+    if (content.isEmpty()) {
+      response.sendRedirect("/walkthrough/");
+      return;
     }
+    
+    long timestamp = System.currentTimeMillis();
+    
+    Entity commentEntity = new Entity("Comment");
+    commentEntity.setProperty("content", content);
+    commentEntity.setProperty("timestamp", timestamp);
+    
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(commentEntity);
+    
     response.sendRedirect("/walkthrough/");
   }
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json;");
-    Gson gson = new Gson();
-    String jsonData = gson.toJson(comments);
-    response.getWriter().println(jsonData);
+    response.getWriter().println("[]");
   }
 
 }
