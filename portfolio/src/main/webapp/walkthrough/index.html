@@ -6,12 +6,12 @@
     <script src="script.js"></script>
   </head>
   <body onload="fetchWalkthroughData()">
-    <ul id="walkthrough-content">
-    </ul>
     <form action="/data" method="POST">
       <p>Add a cheesy, programming related pun</p>
-      <input type="text" placeholder="What do programmers dance to?: Algorhythms"></input>
-      <input type="submit">submit</input>
+      <input name="text-input" type="text" placeholder="What do programmers dance to?: Algorhythms"></input>
+      <input type="submit"></input>
     </form>
+    <ul id="walkthrough-content">
+    </ul>
   </body>
 </html>
