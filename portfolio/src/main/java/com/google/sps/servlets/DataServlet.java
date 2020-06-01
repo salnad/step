@@ -19,14 +19,29 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.gson.Gson;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
+  private List<String> comments;
+
+  @Override
+  public void init() {
+      comments = new ArrayList<String>();
+      comments.add("You are my loop condition. I keep coming back to you.");
+      comments.add("You are my initializer: without you, my life would point to nothing (null).");
+      comments.add("You are my semicolon; always present in everything I do.");
+  }
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html;");
-    response.getWriter().println("Hello Salil Nadkarni (with fetch)!");
+    response.setContentType("application/json;");
+    Gson gson = new Gson();
+    String jsonData = gson.toJson(comments);
+    response.getWriter().println(jsonData);
   }
 }
