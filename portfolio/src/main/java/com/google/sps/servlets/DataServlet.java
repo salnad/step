@@ -32,9 +32,15 @@ public class DataServlet extends HttpServlet {
   @Override
   public void init() {
       comments = new ArrayList<String>();
-      comments.add("You are my loop condition. I keep coming back to you.");
-      comments.add("You are my initializer: without you, my life would point to nothing (null).");
-      comments.add("You are my semicolon; always present in everything I do.");
+  }
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String newComment = request.getParameter("text-input");
+      if (!newComment.isEmpty()) {
+        comments.add(newComment);
+      }
+      response.sendRedirect("/walkthrough/");
   }
 
   @Override
@@ -44,4 +50,5 @@ public class DataServlet extends HttpServlet {
     String jsonData = gson.toJson(comments);
     response.getWriter().println(jsonData);
   }
+
 }
