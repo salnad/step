@@ -37,10 +37,10 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String newComment = request.getParameter("text-input");
-      if (!newComment.isEmpty()) {
-        comments.add(newComment);
-      }
-      response.sendRedirect("/walkthrough/");
+    if (!(newComment.isEmpty() || newComment == null)) {
+      comments.add(newComment);
+    }
+    response.sendRedirect("/walkthrough/");
   }
 
   @Override
