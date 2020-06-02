@@ -16,7 +16,7 @@ resizeCanvasToDisplaySize(canvas);
 // Game of Life specific variables
 const SPEED = 200; // in miliseconds (speed between updates)
 const CELL_SIZE = 10; // in pixels (side length of individual cell)
-const SEED_SPAWN_RATE = 0.1; // as a ratio (likelihood a cell is 'alive' when seeded)
+const SEED_SPAWN_RATE = 0.05; // as a ratio (likelihood a cell is 'alive' when seeded)
 
 let rows = Math.floor(canvas.height / CELL_SIZE);
 let cols = Math.floor(canvas.width / CELL_SIZE);
