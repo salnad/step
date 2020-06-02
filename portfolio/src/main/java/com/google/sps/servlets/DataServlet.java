@@ -37,7 +37,7 @@ import com.google.gson.Gson;
 public class DataServlet extends HttpServlet {
 
   @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {s
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String content = request.getParameter("text-input");
     if (content.isEmpty()) {
       response.sendRedirect("/walkthrough/");
