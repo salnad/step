@@ -59,6 +59,21 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String commentLimitString = request.getParameter("comment_limit");
+    int commentLimit;
+    try {
+      commentLimit = Integer.parseInt(commentLimitString);
+    } catch (NumberFormatException e) {
+      System.err.println("Could not convert to int: " + commentLimitString);
+      return;
+    }
+
+    // Check that the input is between 1 and 3.
+    if (commentLimit < 0) {
+      System.err.println("Comment limit is out of range: " + commentLimitString);
+      return;
+    }
+    
     response.setContentType("application/json;");
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
@@ -67,9 +82,14 @@ public class DataServlet extends HttpServlet {
 
     List<String> comments = new ArrayList<String>();
     
+    int commentsAdded = 0;
     for (Entity entity : results.asIterable()) {
+        if (commentsAdded >= commentLimit) {
+            break;
+        }
         String content = (String) entity.getProperty("content");
         comments.add(content);
+        commentsAdded++;
     }
 
     Gson gson = new Gson();
