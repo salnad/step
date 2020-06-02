@@ -8,3 +8,4 @@ async function fetchWalkthroughData() {
         contentList.appendChild(listItem);
     }
 }
+

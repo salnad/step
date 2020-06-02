@@ -24,7 +24,6 @@ import java.util.List;
 
 import com.google.gson.Gson;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
   private List<String> comments;
@@ -32,9 +31,15 @@ public class DataServlet extends HttpServlet {
   @Override
   public void init() {
       comments = new ArrayList<String>();
-      comments.add("You are my loop condition. I keep coming back to you.");
-      comments.add("You are my initializer: without you, my life would point to nothing (null).");
-      comments.add("You are my semicolon; always present in everything I do.");
+  }
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String newComment = request.getParameter("text-input");
+    if (!(newComment.isEmpty() || newComment == null)) {
+      comments.add(newComment);
+    }
+    response.sendRedirect("/walkthrough/");
   }
 
   @Override
@@ -44,4 +49,6 @@ public class DataServlet extends HttpServlet {
     String jsonData = gson.toJson(comments);
     response.getWriter().println(jsonData);
   }
+
 }
+
