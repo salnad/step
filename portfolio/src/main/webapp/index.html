@@ -4,9 +4,14 @@
     <meta charset="UTF-8">
     <title>Salil Nadkarni (salnad)</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
   </head>
   <body>
+    <canvas id="mycanvas" hidden></canvas>
+    <script src="gameoflife.js"></script>
     <div id="content">
+
         <!-- HEADER -->
         <h1 id="header">Salil Nadkarni</h1>
 
@@ -15,13 +20,14 @@
 
         <!-- BLURB -->
         <div id="blurb">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            Hi, I'm Salil Nadkarni, a rising freshman studying Computer Science Engineering and Mathematics at the University of Michigan, with an interest in data analysis and visualization and quantitative methods. I enjoy classic tetris, sci-fi books, and spending my time creating (arguably friviolous) side-projects with friends and decidedly less frivilous software with groups like the Michigan Data Science Team and Quantitative Investment Society. 
         </div>  
         
         <!-- INFO LINE -->
         <div id="info-line">
             <a target="_blank" class="info-link" href="mailto:salilnadkarni@google.com">Email</a>
             <a target="_blank" class="info-link" href="https://linkedin.com/in/salnad">LinkedIn</a>
+            <a class="info-link"  onclick="toggleGameOfLifeCycle()"><i class="fas fa-play-circle"></i></a>
             <a target="_blank" class="info-link" href="https://moma.corp.google.com/person/salilnadkarni">MOMA</a>
             <a target="_blank" class="info-link" href="https://github.com/salnad">Github</a>
         </div>
