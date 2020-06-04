@@ -56,40 +56,48 @@ public class DataServlet extends HttpServlet {
     response.sendRedirect("/walkthrough/");
   }
 
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String commentLimitString = request.getParameter("comment_limit");
+  private int getCommentLimit(String commentLimitString) {
     int commentLimit;
     try {
       commentLimit = Integer.parseInt(commentLimitString);
     } catch (NumberFormatException e) {
       System.err.println("Could not convert to int: " + commentLimitString);
-      return;
+      return -1;
     }
-
-    // Check that the input is between 1 and 3.
     if (commentLimit < 0) {
       System.err.println("Comment limit is out of range: " + commentLimitString);
-      return;
+      return -1;
     }
-    
-    response.setContentType("application/json;");
+    return commentLimit;
+  }
+
+  private List<String> getComments(int commentLimit) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
 
     List<String> comments = new ArrayList<String>();
-        
+
     int commentsAdded = 0;
     for (Entity entity : results.asIterable()) {
-        if (commentsAdded >= commentLimit) {
-            break;
-        }
-        String content = (String) entity.getProperty("content");
-        comments.add(content);
-        commentsAdded++;
+      if (commentsAdded >= commentLimit) {
+        break;
+      }
+      String content = (String) entity.getProperty("content");
+      comments.add(content);
+      commentsAdded++;
     }
+    return comments;
+  }
+
+  @Override
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String commentLimitString = request.getParameter("comment_limit");
+    int commentLimit = getCommentLimit(commentLimitString);
+
+    response.setContentType("application/json;");
+    List<String> comments = getComments(commentLimit);
 
     Gson gson = new Gson();
     String jsonData = gson.toJson(comments);
