@@ -37,11 +37,5 @@ public class DeleteDataServlet extends HttpServlet {
     for (Entity entity : results.asIterable()) {
       datastore.delete(entity.getKey());
     }
-    response.getWriter().println("boop!");
-  }
-
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.getWriter().println("ERROR");
   }
 }
