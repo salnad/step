@@ -11,3 +11,9 @@ async function fetchWalkthroughData() {
     }
 }
 
+async function deleteComments() {
+  const response = await fetch('/delete-data', {
+    method: "POST"
+  });
+  fetchWalkthroughData();
+}
