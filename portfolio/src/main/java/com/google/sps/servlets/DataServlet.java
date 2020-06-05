@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
+  private static final int COMMENT_MAX = 1000;
 
   private Entity createComment(String content) {
     long timestamp = System.currentTimeMillis();
@@ -68,10 +69,12 @@ public class DataServlet extends HttpServlet {
       System.err.println("Comment limit is out of range: " + commentLimitString);
       return -1;
     }
+    commentLimit = Math.min(commentLimit, COMMENT_MAX);
     return commentLimit;
   }
 
-  private List<String> getComments(int commentLimit) {
+  private List<String> getComments(String commentLimitString) {
+    int commentLimit = getCommentLimit(commentLimitString);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
@@ -94,13 +97,22 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String commentLimitString = request.getParameter("comment_limit");
-    int commentLimit = getCommentLimit(commentLimitString);
-
-    response.setContentType("application/json;");
-    List<String> comments = getComments(commentLimit);
+    List<String> comments = getComments(commentLimitString);
 
     Gson gson = new Gson();
     String jsonData = gson.toJson(comments);
+    response.setContentType("application/json;");
     response.getWriter().println(jsonData);
+  }
+
+  public void doDelete(HttpServletRequest request, HttpServletResponse response)
+      throws IOException {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+    Query query = new Query("Comment");
+    PreparedQuery results = datastore.prepare(query);
+    for (Entity entity : results.asIterable()) {
+      datastore.delete(entity.getKey());
+    }
   }
 }
