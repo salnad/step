@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
+  private static final int COMMENT_MAX = 1000;
 
   private Entity createComment(String content) {
     long timestamp = System.currentTimeMillis();
@@ -56,9 +57,24 @@ public class DataServlet extends HttpServlet {
     response.sendRedirect("/walkthrough/");
   }
 
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("application/json;");
+  private int getCommentLimit(String commentLimitString) {
+    int commentLimit;
+    try {
+      commentLimit = Integer.parseInt(commentLimitString);
+    } catch (NumberFormatException e) {
+      System.err.println("Could not convert to int: " + commentLimitString);
+      return -1;
+    }
+    if (commentLimit < 0) {
+      System.err.println("Comment limit is out of range: " + commentLimitString);
+      return -1;
+    }
+    commentLimit = Math.min(commentLimit, COMMENT_MAX);
+    return commentLimit;
+  }
+
+  private List<String> getComments(String commentLimitString) {
+    int commentLimit = getCommentLimit(commentLimitString);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
@@ -66,13 +82,37 @@ public class DataServlet extends HttpServlet {
 
     List<String> comments = new ArrayList<String>();
 
+    int commentsAdded = 0;
     for (Entity entity : results.asIterable()) {
+      if (commentsAdded >= commentLimit) {
+        break;
+      }
       String content = (String) entity.getProperty("content");
       comments.add(content);
+      commentsAdded++;
     }
+    return comments;
+  }
+
+  @Override
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String commentLimitString = request.getParameter("comment_limit");
+    List<String> comments = getComments(commentLimitString);
 
     Gson gson = new Gson();
     String jsonData = gson.toJson(comments);
+    response.setContentType("application/json;");
     response.getWriter().println(jsonData);
+  }
+
+  public void doDelete(HttpServletRequest request, HttpServletResponse response)
+      throws IOException {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+    Query query = new Query("Comment");
+    PreparedQuery results = datastore.prepare(query);
+    for (Entity entity : results.asIterable()) {
+      datastore.delete(entity.getKey());
+    }
   }
 }
