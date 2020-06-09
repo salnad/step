@@ -20,6 +20,7 @@ public class PokedexDataServlet extends HttpServlet {
         return i;
       }
     }
+    System.error.println("ERROR: Column Name given not valid")
     return -1;
   }
 
