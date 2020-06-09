@@ -1,21 +1,21 @@
 google.charts.load('current', {'packages': ['corechart']});
 google.charts.setOnLoadCallback(drawChart);
 
-function drawChart() {
+async function drawChart() {
+  const response = await fetch('/pokedex-data');
+  const generationArray = await response.json();
   const data = new google.visualization.DataTable();
-  data.addColumn('string', 'Tasks');
-  data.addColumn('number', 'Hours Spent');
-  data.addRows([
-    ['Sleep', 7.5],
-    ['Watch Youtube/TikTok', 5],
-    ['Work', 8],
-    ['Eat / Maintain Myself', 0.5],
-    ['Walk Outside', 1],
-    ['Talk to Other People', 2]
-  ]);
-  
+
+  data.addColumn('string', 'Generation');
+  data.addColumn('number', 'Amount of Pokemon');
+  for (let i = 0; i < generationArray.length; i++) {
+    if (generationArray[i] !== 0) {
+      data.addRow([i.toString(), generationArray[i]]);
+    }
+  }
+
   const options = {
-    'title': 'Daily Activity Breakdown',
+    'title': 'Pokemon Count per Generation',
     'width': 500,
     'height': 500,
   };
