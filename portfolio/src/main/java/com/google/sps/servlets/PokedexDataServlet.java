@@ -10,15 +10,28 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/pokedex-data")
 public class PokedexDataServlet extends HttpServlet {
+  private static final int NUMBER_OF_GENERATIONS =
+      7; // 6 generations, Array Index directly  (1st Gen -> index of 1)
+
+  private int getColIndex(String header, String colName) {
+    String[] colNames = header.split(",");
+    for (int i = 0; i < colNames.length; i++) {
+      if (colName.equals(colNames[i])) {
+        return i;
+      }
+    }
+    return -1;
+  }
 
   private int[] getGenerationCount() {
-    int[] result = new int[10];
+    int[] result = new int[NUMBER_OF_GENERATIONS];
     Scanner scanner = new Scanner(getServletContext().getResourceAsStream("/WEB-INF/pokemon.csv"));
     String header = scanner.nextLine();
+    int generationColIndex = getColIndex(header, "Generation");
     while (scanner.hasNextLine()) {
       String line = scanner.nextLine();
       String[] cells = line.split(",");
-      result[Integer.valueOf(cells[11])]++;
+      result[Integer.valueOf(cells[generationColIndex])]++;
     }
     scanner.close();
     return result;
