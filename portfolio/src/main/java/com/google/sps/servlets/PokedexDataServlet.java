@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 public class PokedexDataServlet extends HttpServlet {
   private static final int NUMBER_OF_GENERATIONS =
       7; // 6 generations, Array Index directly  (1st Gen -> index of 1)
-  
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json");
@@ -43,7 +43,7 @@ public class PokedexDataServlet extends HttpServlet {
         return i;
       }
     }
-    System.error.println("ERROR: Could not find column " + colName + "in header " + header);
+    System.err.println("ERROR: Could not find column " + colName + "in header " + header);
     return -1;
   }
 }
