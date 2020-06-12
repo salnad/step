@@ -10,8 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/pokedex-data")
 public class PokedexDataServlet extends HttpServlet {
-  private static final int NUMBER_OF_GENERATIONS =
-      7; // 6 generations, Array Index directly  (1st Gen -> index of 1)
+  private static final int NUMBER_OF_POKEMON = 800;
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -22,15 +21,27 @@ public class PokedexDataServlet extends HttpServlet {
     response.getWriter().println(json);
   }
 
-  private int[] getGenerationCount() {
-    int[] result = new int[NUMBER_OF_GENERATIONS];
+  private HashMap<String, ArrayList<Integer>> getStats() {
+    HashMap<String, ArrayList<Integer>> result = new HashMap<String, ArrayList<Integer>>();
+    String[] fields = {"HP", "Attack", "Defense", "Sp. Atk", "Sp. Def", "Speed"};
+
+    for (String field : fields) {
+      result.put(field, new ArrayList<Integer>(Collections.nCopies(NUMBER_OF_POKEMON, 0)));
+    }
+
     Scanner scanner = new Scanner(getServletContext().getResourceAsStream("/WEB-INF/pokemon.csv"));
     String header = scanner.nextLine();
-    int generationColIndex = getColIndex(header, "Generation");
+    int entryNumColIndex = getColIndex(header, "#");
+
     while (scanner.hasNextLine()) {
       String line = scanner.nextLine();
       String[] cells = line.split(",");
-      result[Integer.valueOf(cells[generationColIndex])]++;
+      int pokedexEntryNum = Integer.valueOf(cells[entryNumColIndex]);
+
+      for (String field : fields) {
+        int fieldIndex = getColIndex(header, field);
+        result.get(field).set(pokedexEntryNum, Integer.valueOf(cells[fieldIndex]));
+      }
     }
     scanner.close();
     return result;
