@@ -2,6 +2,9 @@ package com.google.sps.servlets;
 
 import com.google.gson.Gson;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Scanner;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,9 +18,9 @@ public class PokedexDataServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json");
-    int[] generations = getGenerationCount();
+    HashMap<String, ArrayList<Integer>> stats = getStats();
     Gson gson = new Gson();
-    String json = gson.toJson(generations);
+    String json = gson.toJson(stats);
     response.getWriter().println(json);
   }
 
