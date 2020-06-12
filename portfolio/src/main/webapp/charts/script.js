@@ -4,7 +4,6 @@ google.charts.setOnLoadCallback(drawStats);
 async function drawStats() {
   const response = await fetch('/pokedex-data');
   const pokeData = await response.json();
-  console.log(pokeData);
   const pokeStats = new google.visualization.DataTable();
   pokeStats.addColumn('string', 'Stat Type');
   pokeStats.addColumn('number', 'Min');
@@ -15,8 +14,6 @@ async function drawStats() {
   for (stat in pokeData) {
     let quartiles = calculateQuartiles(pokeData[stat]);
     pokeStats.addRow([stat, quartiles['min'], quartiles['firstQ'], quartiles['thirdQ'], quartiles['max']]);
-    console.log(stat);
-    console.log(quartiles);
   }
 
   var chart = new google.visualization.ComboChart(document.getElementById('chart-container'));
