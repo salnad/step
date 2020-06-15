@@ -34,16 +34,22 @@ public class PokedexDataServlet extends HttpServlet {
 
     Scanner scanner = new Scanner(getServletContext().getResourceAsStream("/WEB-INF/pokemon.csv"));
     String header = scanner.nextLine();
-    int entryNumColIndex = getColIndex(header, "#");
+    int entryNumColIndex = getColIndex(header, "#"); // Get Index for Pokemons Entry Number
 
     while (scanner.hasNextLine()) {
       String line = scanner.nextLine();
       String[] cells = line.split(",");
+      // Retrieve "Entry Number" (id) of current Pokemon in row
       int pokedexEntryNum = Integer.valueOf(cells[entryNumColIndex]);
-
+      // Loop through each field  to be sent
       for (String field : fields) {
+        // Get the column number of the field in the CSV
         int fieldIndex = getColIndex(header, field);
-        result.get(field).set(pokedexEntryNum, Integer.valueOf(cells[fieldIndex]));
+        // Get value of that field in current row (for current pokemon)
+        int fieldValue = Integer.valueOf(cells[fieldIndex]);
+        // Retrieve the ArrayList mapped for current field in the result map
+        // set the value of the current pokemon's stat indexing using the pokemons entry number (id)
+        result.get(field).set(pokedexEntryNum, fieldValue);
       }
     }
     scanner.close();
