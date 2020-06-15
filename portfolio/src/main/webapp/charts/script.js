@@ -34,9 +34,9 @@ function calculateQuartiles(arr) {
   firstQ = getMedian(arr.slice(0,medianIdx))['val'];
   thirdQ = getMedian(arr.slice(medianIdx))['val'];
   return {
-    median: median,
-    firstQ: firstQ,
-    thirdQ: thirdQ,
+    median,
+    firstQ,
+    thirdQ,
     min: arr[0],
     max: arr[arr.length - 1]
   };
@@ -46,14 +46,7 @@ function removeNullsAndSort(arr) {
   arr.sort((a,b) =>{ 
     return a-b
   });
-  var i = 0;
-  while (i < arr.length) {
-    if (arr[i] === 0) {
-      arr.splice(i, 1);
-    } else {
-      ++i;
-    }
-  }
+  arr = arr.filter(el => el > 0);
   return arr;
 }
 
