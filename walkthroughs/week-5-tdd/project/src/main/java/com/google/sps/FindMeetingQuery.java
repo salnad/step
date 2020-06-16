@@ -18,6 +18,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
+/**
+* Queries calendar to return possible meeting TimeRange's for a meeting request.
+* 
+* <p>Contains the query method (used to query calendar with a meeting request) along with helper 
+* methods to aid in querying the calendar.
+*/
 public final class FindMeetingQuery {
 
   /**
