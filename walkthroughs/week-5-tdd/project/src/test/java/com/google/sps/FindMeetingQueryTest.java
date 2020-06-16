@@ -495,7 +495,7 @@ public final class FindMeetingQueryTest {
     // Options :                   |-----1-----|                     
 
     Collection<Event> events =
-        Arrays.asList(
+          Arrays.asList(
             new Event(
                 "Event 1",
                 TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TimeRange.END_OF_DAY, true),
