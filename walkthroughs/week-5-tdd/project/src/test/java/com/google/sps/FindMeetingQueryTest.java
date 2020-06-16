@@ -483,4 +483,40 @@ public final class FindMeetingQueryTest {
 
     Assert.assertEquals(expected, actual);
   }
+
+  @Test
+  public void paritalOptionalAttendees() {
+    // Only optional attendees are added, should return nothing
+    // as the entire day is filled for both
+    // Events  : |--------------A--------------|
+    //           |-----B-----|
+    //                       |--C--|
+    // Day     : |-----------------------------|
+    // Options :                   |-----1-----|                     
+
+    Collection<Event> events =
+        Arrays.asList(
+            new Event(
+                "Event 1",
+                TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TimeRange.END_OF_DAY, true),
+                Arrays.asList(PERSON_A)),
+            new Event(
+                "Event 2",
+                TimeRange.fromStartEnd(TimeRange.START_OF_DAY, DURATION_1_HOUR, true),
+                Arrays.asList(PERSON_B)),
+            new Event(
+                "Event 3",
+                TimeRange.fromStartEnd(TIME_0900AM, DURATION_1_HOUR, true),
+                Arrays.asList(PERSON_C)));
+
+    MeetingRequest request = new MeetingRequest(Arrays.asList(PERSON_B), DURATION_30_MINUTES);
+    request.addOptionalAttendee(PERSON_A);
+    request.addOptionalAttendee(PERSON_C);
+
+    Collection<TimeRange> actual = query.query(events, request);
+    Collection<TimeRange> expected = Arrays.asList(
+      TimeRange.fromStartEnd(TIME_1000AM, TimeRange.END_OF_DAY, false));
+
+    Assert.assertEquals(expected, actual);
+  }
 }
