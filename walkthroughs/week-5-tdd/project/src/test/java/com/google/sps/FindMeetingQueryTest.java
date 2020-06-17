@@ -133,7 +133,7 @@ public final class FindMeetingQueryTest {
   }
 
   @Test
-  public void everyAttendeeIsConsideredWithInvalOptional() {
+  public void everyAttendeeIsConsideredWithInvalidOptional() {
     // Have each person have different events. We should see two options because each person has
     // split the restricted times. Add optional person C who takes up whole day (therefore, not
     // considered)
@@ -171,7 +171,7 @@ public final class FindMeetingQueryTest {
   }
 
   @Test
-  public void everyAttendeeIsConsideredWithValOptional() {
+  public void everyAttendeeIsConsideredWithValidOptional() {
     // Have each person have different events. We should see two options because each person has
     // split the restricted times. Add optional person C who takes up slot 1.
     //
