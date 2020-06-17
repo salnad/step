@@ -492,10 +492,10 @@ public final class FindMeetingQueryTest {
     //           |-----B-----|
     //                       |--C--|
     // Day     : |-----------------------------|
-    // Options :                   |-----1-----|                     
+    // Options :                   |-----1-----|
 
     Collection<Event> events =
-          Arrays.asList(
+        Arrays.asList(
             new Event(
                 "Event 1",
                 TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TimeRange.END_OF_DAY, true),
@@ -514,8 +514,8 @@ public final class FindMeetingQueryTest {
     request.addOptionalAttendee(PERSON_C);
 
     Collection<TimeRange> actual = query.query(events, request);
-    Collection<TimeRange> expected = Arrays.asList(
-      TimeRange.fromStartEnd(TIME_1000AM, TimeRange.END_OF_DAY, false));
+    Collection<TimeRange> expected =
+        Arrays.asList(TimeRange.fromStartEnd(TIME_1000AM, TimeRange.END_OF_DAY, false));
 
     Assert.assertEquals(expected, actual);
   }
