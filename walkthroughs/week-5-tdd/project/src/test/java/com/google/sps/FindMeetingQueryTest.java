@@ -396,8 +396,8 @@ public final class FindMeetingQueryTest {
 
   @Test
   public void notEnoughRoom() {
-    // Have one person, but make it so that there is not enough room at any point in the day to
-    // have the meeting.
+    // Have one person, but make it so that there is not enough room at any point in the day to have
+    // the meeting.
     //
     // Events  : |--A-----| |-----A----|
     // Day     : |---------------------|
@@ -486,8 +486,7 @@ public final class FindMeetingQueryTest {
 
   @Test
   public void paritalOptionalAttendees() {
-    // Only optional attendees are added, should return nothing
-    // as the entire day is filled for both
+    // Only optional attendees are added, should return nothing as the entire day is filled for both
     // Events  : |--------------A--------------|
     //           |-----B-----|
     //                       |--C--|
