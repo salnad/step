@@ -40,19 +40,20 @@ public final class FindMeetingQuery {
    * @return Collection<TimeRange> of available TimeRange's for the meeting to be scheduled
    */
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    Collection<TimeRange> result;
+    Collection<TimeRange> result = new ArrayList<TimeRange>();
 
-    ArrayList<TimeRange> conflicts = generateConflicts(events, request.getAttendees());
+    ArrayList<TimeRange> mandatoryConflicts = generateConflicts(events, request.getAttendees());
+    ArrayList<TimeRange> optionalConflicts =
+        generateConflicts(events, request.getOptionalAttendees());
+    ArrayList<TimeRange> allConflicts = (ArrayList<TimeRange>) mandatoryConflicts.clone();
+    allConflicts.addAll(optionalConflicts);
 
-    if (conflicts.isEmpty()) {
-      result = new ArrayList<TimeRange>();
-      // if no conflicts exist, attempt to book the entire day
-      TimeRange fullDay =
-          TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TimeRange.END_OF_DAY, true);
-      addIfPossible(result, fullDay, request.getDuration());
-    } else {
-      result = generateFreeTimeRanges(conflicts, request.getDuration());
+    result = generateFreeTimeRanges(allConflicts, request.getDuration());
+
+    if (result.isEmpty() && !request.getAttendees().isEmpty()) {
+      result = generateFreeTimeRanges(mandatoryConflicts, request.getDuration());
     }
+
     return result;
   }
 
@@ -93,6 +94,15 @@ public final class FindMeetingQuery {
   private ArrayList<TimeRange> generateFreeTimeRanges(
       ArrayList<TimeRange> conflicts, long duration) {
     ArrayList<TimeRange> freeTimes = new ArrayList<TimeRange>();
+
+    if (conflicts.isEmpty()) {
+      // if no conflicts exist, attempt to book the entire day
+      TimeRange fullDay =
+          TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TimeRange.END_OF_DAY, true);
+      addIfPossible(freeTimes, fullDay, duration);
+      return freeTimes;
+    }
+
     mergeConflicts(conflicts);
 
     // Handling TimeRange from start of the day to beggining of first event
