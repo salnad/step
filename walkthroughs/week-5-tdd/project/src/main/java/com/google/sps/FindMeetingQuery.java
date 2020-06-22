@@ -46,13 +46,14 @@ public final class FindMeetingQuery {
     ArrayList<TimeRange> optionalConflicts =
         generateConflicts(events, request.getOptionalAttendees());
     ArrayList<TimeRange> allConflicts = new ArrayList<TimeRange>();
-    allConflicts.addALl(mandatoryConflicts);
+    allConflicts.addAll(mandatoryConflicts);
     allConflicts.addAll(optionalConflicts);
-    
+
     // first try to generate a result including all attendees
     result = generateFreeTimeRanges(allConflicts, request.getDuration());
 
-    // if no times generated, and there exist mandatory attendees, try generating with only mandatory attendees
+    // if no times generated, and there exist mandatory attendees, try generating with only
+    // mandatory attendees
     if (result.isEmpty() && !request.getAttendees().isEmpty()) {
       result = generateFreeTimeRanges(mandatoryConflicts, request.getDuration());
     }
